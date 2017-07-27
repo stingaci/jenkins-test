@@ -1,6 +1,7 @@
 #!/usr/bin/env groovy
 node {
   stage 'Docker build'
+  def scmVars = checkout scm
   docker.build('testimage')
  
   stage 'Docker push'
