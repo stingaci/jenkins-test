@@ -29,7 +29,7 @@ node {
 
   stage 'Docker Auth'
   withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'aws-creds', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY']]){
-    sh 'export AWS_DEFAULT_REGION=us-west-2; eval `aws ecr get-login`'
+    sh 'export AWS_DEFAULT_REGION=us-west-2; env; aws ecr-get login;  eval `aws ecr get-login`'
   }
 
   stage 'Push Image'
