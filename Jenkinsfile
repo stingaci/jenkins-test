@@ -8,7 +8,7 @@ node {
   // Verify Dockerfile exists 
   try { 
     sh '[ -f "Dockerfile" ]'
-  } catch {
+  } catch () {
     error ("Missing Dockerfile")
   }
 
@@ -17,7 +17,7 @@ node {
     sh 'cat Dockerfile | grep APP_NAME | cut -d= -f2 |  tr -d "[:space:]" > app_name'
     sh 'cat Dockerfile | grep APP_VERSION | cut -d= -f2 |  tr -d "[:space:]" > app_version'
     sh 'cat Dockerfile | grep APP_REVISION | cut -d= -f2 |  tr -d "[:space:]" > app_revision'
-  catch { 
+  catch () { 
     error ('Missing or malformed APP_NAME, APP_VERSION, APP_REVISION in Dockerfile')
   } 
   def app_name = readFile('app_name')
