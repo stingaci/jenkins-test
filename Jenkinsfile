@@ -5,14 +5,14 @@ node {
   def scmVars = checkout scm
 
   stage 'Validate'
-  # Verify Dockerfile exists 
+  // Verify Dockerfile exists 
   try { 
     sh '[ -f "Dockerfile" ]'
   } catch {
     error ("Missing Dockerfile")
   }
 
-  # Gather APP_NAME, APP_VERSION, APP_REVISION
+  // Gather APP_NAME, APP_VERSION, APP_REVISION
   try {
     sh 'cat Dockerfile | grep APP_NAME | cut -d= -f2 |  tr -d "[:space:]" > app_name'
     sh 'cat Dockerfile | grep APP_VERSION | cut -d= -f2 |  tr -d "[:space:]" > app_version'
@@ -20,7 +20,6 @@ node {
   catch { 
     error ('Missing or malformed APP_NAME, APP_VERSION, APP_REVISION in Dockerfile')
   } 
-
   def app_name = readFile('app_name')
   def app_version = readFile('app_name')
   def app_revision = readFile('app_revision')
