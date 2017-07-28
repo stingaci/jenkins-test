@@ -26,7 +26,7 @@ node {
 
   stage 'Build Image'
   echo "$app_name"
-  docker.build('${app_name}')
+  docker.build(app_name)
 
   stage 'Push Image'
   echo "$app_name"
