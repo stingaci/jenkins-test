@@ -28,7 +28,7 @@ node {
   docker.build("${app_name}")
 
   stage 'Push Image'
-  docker.withRegistry('https://400585646753.dkr.ecr.us-west-2.amazonaws.com', 'ecr:us-east-2:9c393ae1-fc62-47f3-abb9-0783d0aa9fd9') {
+  docker.withRegistry('https://400585646753.dkr.ecr.us-west-2.amazonaws.com', 'ecr:us-east-2:test-creds') {
     docker.image("${app_name}").push("${app_version}_${app_revision}")
   }
 }
