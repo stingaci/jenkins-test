@@ -27,7 +27,7 @@ node {
   stage 'Build Image'
   docker.build("${app_name}")
 
-  stack 'Docker Auth"
+  stack 'Docker Auth'
   withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: '<CREDENTIAL_ID>', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY']]){
     sh 'export AWS_DEFAULT_REGION=us-west-2; eval `aws ecr get-login`'
   }
