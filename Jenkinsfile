@@ -27,8 +27,13 @@ node {
   stage 'Build Image'
   docker.build("${app_name}")
 
+  stack 'Docker Auth"
+  withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: '<CREDENTIAL_ID>', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY']]){
+    sh 'export AWS_DEFAULT_REGION=us-west-2; eval `aws ecr get-login`'
+  }
+
   stage 'Push Image'
-  docker.withRegistry('https://400585646753.dkr.ecr.us-west-2.amazonaws.com', 'ecr:us-east-2:test-creds') {
+  docker.withRegistry('https://400585646753.dkr.ecr.us-west-2.amazonaws.com') {
     docker.image("${app_name}").push("${app_version}_${app_revision}")
   }
 }
