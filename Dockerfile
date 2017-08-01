@@ -3,4 +3,4 @@
 # APP_REVISION = 1.0
 FROM busybox
 
-CMD ["/bin/sleep 10"]
+CMD ["/bin/sleep","10"]
