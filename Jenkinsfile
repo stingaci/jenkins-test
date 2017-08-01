@@ -48,6 +48,7 @@ node {
   } catch (err) {
     error ("Failed to run container: ${err}")
   }
+  print ( "what" )
   print ( "${container_id}")
   // Verify Container didn't exit early
   sh "docker inspect -f {{.State.Running}} ${container_id} > running.status"
