@@ -2,8 +2,7 @@
 node {
   
   stage 'Check Out'
-  //checkout([$class: 'GitSCM', branches: [[name: '*/${BRANCH_NAME}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/stingaci/jenkins-test']]])
-  checkout scm
+  checkout([$class: 'GitSCM', branches: [[name: '*/${BRANCH_NAME}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/stingaci/jenkins-test']]])
 
   stage 'Validate'
   // Verify Dockerfile exists 
@@ -27,15 +26,6 @@ node {
 
   stage 'Build Image'
   docker.build("${app_name}")
-/*  if ("${BRANCH_NAME}" == "master") {
-    stage 'Push Image'
-    docker.withRegistry('https://400585646753.dkr.ecr.us-west-2.amazonaws.com') {
-      print ("${app_name} ${app_version}_${app_revision}")
-      docker.image("${app_name}").push("${app_version}_${app_revision}")
-      print ("done")
-    }
-  }
-*/
 
   stage 'Test Image'
   // Read extra running options for image 
