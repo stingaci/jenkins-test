@@ -70,6 +70,7 @@ node {
     print ("Docker stop command failed with the following error: ${err}")
   }
 
+  print ("${env.BRANCH_NAME}")
   if (env.BRANCH_NAME == "master") {
     stage 'Push Image'
     try {
