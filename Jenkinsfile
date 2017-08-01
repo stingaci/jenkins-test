@@ -2,7 +2,8 @@
 node {
   
   stage 'Check Out'
-  checkout([$class: 'GitSCM', branches: [[name: '*/${BRANCH_NAME}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/stingaci/jenkins-test']]])
+  //checkout([$class: 'GitSCM', branches: [[name: '*/${BRANCH_NAME}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/stingaci/jenkins-test']]])
+  checkout scm
 
   stage 'Validate'
   // Verify Dockerfile exists 
