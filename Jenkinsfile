@@ -45,14 +45,14 @@ node {
   try { 
     sh "docker run -d ${run_opts} ${app_name} > container.id"
     def container_id = readFile("container.id")
-  catch (err) {
+  } catch (err) {
     error ("Failed to run container: ${err}")
   }
 
   // Verify Container didn't exit early
   sh "docker inspect -f {{.State.Running}} ${container_id} > running.status"
   def running_status = readFile ("running.status")
-  if running_status != "false" {
+  if ( running_status != "false" ) {
     sh "docker inspect -f {{.State.ExitCode}} ${container_id} > running.exit_code"
     sh "docker inspect -f {{.State.Error}} ${container_id} > running.error"
     def exit_code = readFile("running.exit_code")
