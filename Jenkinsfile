@@ -43,20 +43,17 @@ node {
   } catch (err) {
     error ("Failed to run container: ${err}")
   }
-  def container_id = readFile("container_id")
-  print ( "what" )
-  print ( "${container_id}")
+
   // Verify Container didn't exit early
+  def container_id = readFile("container_id")
   sh "docker inspect -f {{.State.Running}} ${container_id} > running.status"
   def running_status = readFile ("running.status")
   if ( running_status != "false" ) {
     sh "docker inspect -f {{.State.ExitCode}} ${container_id} > running.exit_code"
     sh "docker inspect -f {{.State.Error}} ${container_id} > running.error"
     def exit_code = readFile("running.exit_code")
-    def error = readFile("running.error")
-    print ("Container exits upon creation with status code: ${exit_code} and error: ${error}")
-    currentBuild.result = 'ABORTED'
-    error ('Aborting...')
+    def error_msg = readFile("running.error")
+    error ("Container exits upon creation with status code: ${exit_code} and error: ${error_msg}")
   } 
 
   // Actually run the tests against running container
