@@ -76,6 +76,7 @@ node {
     docker.withRegistry('https://400585646753.dkr.ecr.us-west-2.amazonaws.com') {
       print ("${app_name} ${app_version}_${app_revision}")
       docker.image("${app_name}").push("${app_version}_${app_revision}")
+      print ("done")
     }
   }
 
