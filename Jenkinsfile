@@ -29,7 +29,7 @@ node {
 
   stage 'Docker Auth'
   withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'aws-creds', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY']]){
-    sh 'export AWS_DEFAULT_REGION=us-west-2; eval `aws ecr get-login | cut -d" " -f1,2,3,4,5,6,9`'
+    sh 'export AWS_DEFAULT_REGION=${params.AWS_REGION}; eval `aws ecr get-login | cut -d" " -f1,2,3,4,5,6,9`'
   }
 
   stage 'Test Image'
@@ -74,9 +74,11 @@ node {
     print ("Docker stop command failed with the following error: ${err}")
   }
 
-  stage 'Push Image'
-  docker.withRegistry('https://400585646753.dkr.ecr.us-west-2.amazonaws.com') {
-    docker.image("${app_name}").push("${app_version}_${app_revision}")
+  if (env.BRANCH_NAME == "master") {
+    stage 'Push Image'
+    docker.withRegistry('https://400585646753.dkr.ecr.us-west-2.amazonaws.com') {
+      docker.image("${app_name}").push("${app_version}_${app_revision}")
+    }
   }
 
 }
