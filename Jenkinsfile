@@ -43,11 +43,11 @@ node {
 
   // Run Container
   try { 
-    sh "docker run -d ${run_opts} ${app_name} > container.id"
-    def container_id = readFile("container.id")
+    sh "docker run -d ${run_opts} ${app_name} > container_id"
   } catch (err) {
     error ("Failed to run container: ${err}")
   }
+  def container_id = readFile("container_id")
   print ( "what" )
   print ( "${container_id}")
   // Verify Container didn't exit early
