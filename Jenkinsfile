@@ -53,7 +53,6 @@ node {
     error ("Failed to run container: ${err}")
   }
 
-/*
   // Verify Container didn't exit early
   def container_id = readFile("container_id")
   sh "docker inspect -f {{.State.Running}} ${container_id} > running.status"
@@ -65,6 +64,7 @@ node {
     def error_msg = readFile("running.error")
     error ("Container exits upon creation with status code: ${exit_code} and error: ${error_msg}")
   } 
+/*
 
   // Actually run the tests against running container
   try { 
