@@ -37,7 +37,6 @@ node {
   }
 */
 
-/*
   stage 'Test Image'
   // Read extra running options for image 
   try {
@@ -54,6 +53,7 @@ node {
     error ("Failed to run container: ${err}")
   }
 
+/*
   // Verify Container didn't exit early
   def container_id = readFile("container_id")
   sh "docker inspect -f {{.State.Running}} ${container_id} > running.status"
