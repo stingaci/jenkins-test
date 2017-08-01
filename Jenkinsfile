@@ -2,7 +2,7 @@
 node {
   
   stage 'Check Out'
-  checkout([$class: 'GitSCM', branches: [[name: '*/${BRANCH_NAME}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/stingaci/image-test']]])
+  checkout([$class: 'GitSCM', branches: [[name: '*/${IMAGE_REPO_BRANCH}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: '${IMAGE_REPO_URL}']]])
 
   stage 'Validate'
   // Verify Dockerfile exists 
