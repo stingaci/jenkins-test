@@ -2,7 +2,7 @@
 node {
   
   stage 'Check Out'
-  def scmVars = checkout scm
+  checkout([$class: 'GitSCM', branches: [[name: '*/${BRANCH_NAME}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/stingaci/jenkins-test']]])
 
   stage 'Validate'
   // Verify Dockerfile exists 
@@ -70,8 +70,7 @@ node {
     print ("Docker stop command failed with the following error: ${err}")
   }
 
-  print ("${env.BRANCH_NAME}")
-  if (env.BRANCH_NAME == "master") {
+  if ("${BRANCH_NAME}" == "master") {
     stage 'Push Image'
     try {
       docker.withRegistry('https://400585646753.dkr.ecr.us-west-2.amazonaws.com') {
