@@ -64,7 +64,6 @@ node {
     def error_msg = readFile("running.error")
     error ("Container exits upon creation with status code: ${exit_code} and error: ${error_msg}")
   } 
-/*
 
   // Actually run the tests against running container
   try { 
@@ -75,11 +74,12 @@ node {
 
   // Cleanup tests
   try {
-    sh = "docker stop ${container_id}" 
+    sh "docker stop ${container_id}" 
   } catch (err) {
     print ("Docker stop command failed with the following error: ${err}")
   }
-*/
+
+  // If master push image
   if ("${BRANCH_NAME}" == "master") {
     stage 'Push Image'
     try {
