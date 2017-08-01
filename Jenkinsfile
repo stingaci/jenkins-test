@@ -54,8 +54,9 @@ node {
     sh "docker inspect -f {{.State.Error}} ${container_id} > running.error"
     def exit_code = readFile("running.exit_code")
     def error = readFile("running.error")
-    print ( "${exit_code} ${error}" )
-    error ("Container exits upon creation with status code: ${exit_code} and error: ${error}")
+    print ("Container exits upon creation with status code: ${exit_code} and error: ${error}")
+    currentBuild.result = 'ABORTED'
+    error ('Aborting...')
   } 
 
   // Actually run the tests against running container
