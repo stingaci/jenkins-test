@@ -72,6 +72,13 @@ node {
 
   if ("${BRANCH_NAME}" == "master") {
     stage 'Push Image'
+    docker.withRegistry('https://400585646753.dkr.ecr.us-west-2.amazonaws.com') {
+      docker.image("${app_name}").push("${app_version}_${app_revision}")
+    }
+  }
+
+  if ("${BRANCH_NAME}" == "master") {
+    stage 'Push Image'
     try {
       docker.withRegistry('https://400585646753.dkr.ecr.us-west-2.amazonaws.com') {
         docker.image("${app_name}").push("${app_version}_${app_revision}")
