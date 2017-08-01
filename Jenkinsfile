@@ -66,7 +66,7 @@ node {
   try {
     sh "docker stop ${container_id}" 
   } catch (err) {
-    print ("Docker stop command failed with the following error: ${err}")
+    error ("Docker stop command failed with the following error: ${err}")
   }
 
   // If master push image
@@ -77,7 +77,6 @@ node {
         docker.image("${app_name}").push("${app_version}_${app_revision}")
       }
     } catch (err) {
-      print ("${err}" ) 
       withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'aws-creds', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY']]){
         sh 'export AWS_DEFAULT_REGION=${AWS_REGION}; eval `aws ecr get-login | cut -d" " -f1,2,3,4,5,6,9`'
       }
