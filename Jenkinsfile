@@ -48,7 +48,7 @@ node {
   def container_id = readFile("container_id")
   sh "docker inspect -f {{.State.Running}} ${container_id} > running.status"
   def running_status = readFile ("running.status")
-  if ( running_status != "false" ) {
+  if ( running_status == "false" ) {
     sh "docker inspect -f {{.State.ExitCode}} ${container_id} > running.exit_code"
     sh "docker inspect -f {{.State.Error}} ${container_id} > running.error"
     def exit_code = readFile("running.exit_code")
