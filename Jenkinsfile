@@ -70,7 +70,7 @@ node {
   }
 
   // If master push image
-  if ("${BRANCH_NAME}" == "master") {
+  if ("${IMAGE_REPO_BRANCH}" == "master") {
     stage 'Push Image'
     try {
       docker.withRegistry('https://400585646753.dkr.ecr.us-west-2.amazonaws.com') {
