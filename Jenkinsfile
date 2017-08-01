@@ -58,7 +58,7 @@ node {
 
   // Actually run the tests against running container
   try { 
-    sh = "tests/main.sh"
+    sh "tests/main.sh"
   } catch (err) { 
     error ("Image tests failed with the following error(s): ${err}")
   }
