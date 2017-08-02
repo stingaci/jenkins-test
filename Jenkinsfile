@@ -73,14 +73,14 @@ node {
   if ("${IMAGE_REPO_BRANCH}" == "master") {
     stage 'Push Image'
     try {
-      docker.withRegistry('https://400585646753.dkr.ecr.us-west-2.amazonaws.com') {
+      docker.withRegistry("${AWS_REGISTRY_URL}") {
         docker.image("${app_name}").push("${app_version}_${app_revision}")
       }
     } catch (err) {
       withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'aws-creds', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY']]){
         sh 'export AWS_DEFAULT_REGION=${AWS_REGION}; eval `aws ecr get-login | cut -d" " -f1,2,3,4,5,6,9`'
       }
-      docker.withRegistry('https://400585646753.dkr.ecr.us-west-2.amazonaws.com') {
+      docker.withRegistry("${AWS_REGISTRY_URL}") {
         docker.image("${app_name}").push("${app_version}_${app_revision}")
       }
    }
