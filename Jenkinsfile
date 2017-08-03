@@ -31,21 +31,13 @@ node {
   } 
 
   // Run Container
-  try { 
-    sh "docker run -d ${run_opts} ${app_name} > container_id"
-  } catch (err) {
-    error ("Failed to run container: ${err}")
-  }
+  def container_id = sh (script: "docker run -d ${run_opts} ${app_name}", returnStdout: true)
 
   // Verify Container didn't exit early
-  def container_id = readFile("container_id")
-  sh "docker inspect -f {{.State.Running}} ${container_id} > running.status"
-  def running_status = readFile ("running.status")
+  def running_status = sh (script: "docker inspect -f {{.State.Running}} ${container_id}", returnStdout: true)
   if ( running_status == "false" ) {
-    sh "docker inspect -f {{.State.ExitCode}} ${container_id} > running.exit_code"
-    sh "docker inspect -f {{.State.Error}} ${container_id} > running.error"
-    def exit_code = readFile("running.exit_code")
-    def error_msg = readFile("running.error")
+    def exit_code = sh (script: "docker inspect -f {{.State.ExitCode}} ${container_id}", returnStdout: true)
+    def error_msg = sh (script: "docker inspect -f {{.State.Error}} ${container_id}", returnStdout: true) 
     error ("Container exits upon creation with status code: ${exit_code} and error: ${error_msg}")
   } 
 
