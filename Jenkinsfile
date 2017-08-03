@@ -14,7 +14,7 @@ node {
   app_name = sh (script: 'cat Dockerfile | grep APP_NAME | cut -d= -f2 |  tr -d "[:space:]"', readStdout: true)
   app_version = sh (script: 'cat Dockerfile | grep APP_VERSION | cut -d= -f2 |  tr -d "[:space:]"', readStdout: true)
   app_revision = sh (script: 'cat Dockerfile | grep APP_REVISION | cut -d= -f2 |  tr -d "[:space:]"', readStdout: true)
-  if ( !app_name || !app_version || !app_revision) {
+  if ( !app_name && !app_version && !app_revision) {
     error ('Missing or malformed APP_NAME, APP_VERSION, APP_REVISION in Dockerfile')
   } 
   def app_name = readFile('app_name')
