@@ -6,7 +6,7 @@ node {
 
   stage 'Validate'
   // Verify Dockerfile exists 
-  if (!fileExists('Dockerfile'){
+  if (!fileExists('Dockerfile')){
     error ("Missing Dockerfile")
   }
 
