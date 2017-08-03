@@ -14,9 +14,9 @@ node {
 
   // Gather APP_NAME, APP_VERSION, APP_REVISION
   try {
-    sh 'set -e; cat Dockerfile | grep APP_NAME | cut -d= -f2 |  tr -d "[:space:]" > app_name'
-    sh 'set -e; cat Dockerfile | grep APP_VERSION | cut -d= -f2 |  tr -d "[:space:]" > app_version'
-    sh 'set -e; cat Dockerfile | grep APP_REVISION | cut -d= -f2 |  tr -d "[:space:]" > app_revision'
+    sh 'set -e; set -o pipefail; cat Dockerfile | grep APP_NAME | cut -d= -f2 |  tr -d "[:space:]" > app_name'
+    sh 'set -e; set -o pipefail; cat Dockerfile | grep APP_VERSION | cut -d= -f2 |  tr -d "[:space:]" > app_version'
+    sh 'set -e; set -o pipefail; cat Dockerfile | grep APP_REVISION | cut -d= -f2 |  tr -d "[:space:]" > app_revision'
   } catch (err) { 
     error ('Missing or malformed APP_NAME, APP_VERSION, APP_REVISION in Dockerfile')
   } 
