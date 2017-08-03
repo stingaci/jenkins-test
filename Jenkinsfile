@@ -17,9 +17,6 @@ node {
   if ( app_name == null || app_version == null  || app_revision == null) {
     error ('Missing or malformed APP_NAME, APP_VERSION, APP_REVISION in Dockerfile')
   } 
-  def app_name = readFile('app_name')
-  def app_version = readFile('app_version')
-  def app_revision = readFile('app_revision')
 
   stage 'Build Image'
   docker.build("${app_name}")
