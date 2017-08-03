@@ -81,8 +81,8 @@ node {
       }
     } catch (err) {
       withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'aws-creds', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY']]){
-        sh 'export AWS_DEFAULT_REGION=${AWS_REGION}; eval `aws ecr get-login | cut -d" " -f1,2,3,4,5,6,9`'
-        sh 'export AWS_DEFAULT_REGION=${AWS_REGION}; if [ `aws ecr describe-repositories | grep repositoryName | grep \"${app_name}\" | wc -l` -eq 0 ]; then aws ecr create-repository --repository-name ${app_name}; fi'
+       sh 'export AWS_DEFAULT_REGION=${AWS_REGION}; eval `aws ecr get-login | cut -d" " -f1,2,3,4,5,6,9`'
+       sh "export AWS_DEFAULT_REGION=${AWS_REGION}; if [ `aws ecr describe-repositories | grep repositoryName | grep \"${app_name}\" | wc -l` -eq 0 ]; then aws ecr create-repository --repository-name ${app_name}; fi"
       }
       docker.withRegistry("https://${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com") {
         docker.image("${app_name}").push("${app_version}_${app_revision}")
