@@ -18,9 +18,11 @@ node {
     if ( !app_name || !app_version  || !app_revision) {
       error ('Missing or malformed APP_NAME, APP_VERSION, APP_REVISION in Dockerfile')
     } 
+    print ("${app_name}")
   }
 
   stage ('Build Image') {
+    print ("${app_name}")
     docker.build("${app_name}")
   }
 
