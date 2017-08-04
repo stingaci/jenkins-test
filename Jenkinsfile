@@ -5,24 +5,22 @@ node {
     checkout([$class: 'GitSCM', branches: [[name: '*/${IMAGE_REPO_BRANCH}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: '${IMAGE_REPO_URL}']]])
   }
 
+  // Gather APP_NAME, APP_VERSION, APP_REVISION
+  def app_name = sh (script: 'cat Dockerfile | grep APP_NAME | cut -d= -f2 |  tr -d "[:space:]"', returnStdout: true)
+  def app_version = sh (script: 'cat Dockerfile | grep APP_VERSION | cut -d= -f2 |  tr -d "[:space:]"', returnStdout: true)
+  def app_revision = sh (script: 'cat Dockerfile | grep APP_REVISION | cut -d= -f2 |  tr -d "[:space:]"', returnStdout: true)
+
   stage ('Validate') {
     // Verify Dockerfile exists 
     if (!fileExists('Dockerfile')){
       error ("Missing Dockerfile")
     }
-
-    // Gather APP_NAME, APP_VERSION, APP_REVISION
-    def app_name = sh (script: 'cat Dockerfile | grep APP_NAME | cut -d= -f2 |  tr -d "[:space:]"', returnStdout: true)
-    def app_version = sh (script: 'cat Dockerfile | grep APP_VERSION | cut -d= -f2 |  tr -d "[:space:]"', returnStdout: true)
-    def app_revision = sh (script: 'cat Dockerfile | grep APP_REVISION | cut -d= -f2 |  tr -d "[:space:]"', returnStdout: true)
     if ( !app_name || !app_version  || !app_revision) {
       error ('Missing or malformed APP_NAME, APP_VERSION, APP_REVISION in Dockerfile')
     } 
-    print ("${app_name}")
   }
 
   stage ('Build Image') {
-    print ("${app_name}")
     docker.build("${app_name}")
   }
 
